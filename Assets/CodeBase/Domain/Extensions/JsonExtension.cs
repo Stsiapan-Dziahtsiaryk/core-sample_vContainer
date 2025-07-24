@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GraySide.Extensions
+namespace Domain.Extensions
 {
     public static class JsonExtension
     {

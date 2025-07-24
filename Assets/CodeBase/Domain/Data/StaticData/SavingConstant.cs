@@ -1,4 +1,4 @@
-namespace GraySide.Data.StaticData
+namespace Domain.Data.StaticData
 {
     public class SavingConstant
     {

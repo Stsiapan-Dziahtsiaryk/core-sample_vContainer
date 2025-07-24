@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace GraySide.Presentation.Views
+namespace Domain.Presentation.Views
 {
     public class RectTransformEvent : MonoBehaviour
     {

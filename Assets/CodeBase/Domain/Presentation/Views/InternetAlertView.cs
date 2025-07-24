@@ -1,6 +1,6 @@
 using Shared.Presentation;
 
-namespace GraySide.Presentation.Views
+namespace Domain.Presentation.Views
 {
     public class InternetAlertView : CanvasGroupView 
     {

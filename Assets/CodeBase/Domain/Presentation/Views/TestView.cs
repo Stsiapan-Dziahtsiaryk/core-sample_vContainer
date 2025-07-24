@@ -2,7 +2,7 @@ using Shared.Presentation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GraySide.Presentation.Views
+namespace Domain.Presentation.Views
 {
     public class TestView : CanvasGroupView
     {

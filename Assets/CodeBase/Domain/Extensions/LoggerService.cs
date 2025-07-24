@@ -1,7 +1,7 @@
-using GraySide.Data.Configs;
+using Domain.Data.Configs;
 using UnityEngine;
 
-namespace GraySide.Extensions
+namespace Domain.Extensions
 {
     public class LoggerService
     {

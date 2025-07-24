@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GraySide.Data.Configs
+namespace Domain.Data.Configs
 {
     [CreateAssetMenu(fileName = "App Settings", menuName = "Settings/App Settings", order = 51)]
     public class AppSettingsConfig : ScriptableObject

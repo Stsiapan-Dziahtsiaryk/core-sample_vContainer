@@ -1,12 +1,12 @@
 using System;
 using CodeBase.Shared;
 using CodeBase.Shared.StaticData;
-using GraySide.Presentation.Views;
+using Domain.Presentation.Views;
 using Infrastructure.StateMachine;
 using Infrastructure.UIStateMachine;
 using Shared.Presentation;
 
-namespace GraySide.Presentation.Presenters
+namespace Domain.Presentation.Presenters
 {
     public class TestPresenter : ICanvasPresenter
     {

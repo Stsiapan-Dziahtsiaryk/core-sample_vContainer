@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace GraySide.Presentation.Views
+namespace Domain.Presentation.Views
 {
     public class ProgressElement : MonoBehaviour
     {

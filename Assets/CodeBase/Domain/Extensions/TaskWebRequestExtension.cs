@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 
-namespace GraySide.Extensions
+namespace Domain.Extensions
 {
     public static class TaskWebRequestExtension
     {

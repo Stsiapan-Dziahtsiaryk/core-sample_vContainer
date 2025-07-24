@@ -1,7 +1,7 @@
 using Shared.Presentation;
 using UnityEngine;
 
-namespace GraySide.Presentation.Views
+namespace Domain.Presentation.Views
 {
     public class CurtainView : CanvasGroupView
     {

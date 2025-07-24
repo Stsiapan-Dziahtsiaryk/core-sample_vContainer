@@ -1,6 +1,6 @@
+using Domain.Data.Configs;
+using Domain.Extensions;
 using Gameplay.Audio;
-using GraySide.Data.Configs;
-using GraySide.Extensions;
 using Infrastructure.Composition;
 using Infrastructure.SceneProxy;
 using Infrastructure.StateMachine;
