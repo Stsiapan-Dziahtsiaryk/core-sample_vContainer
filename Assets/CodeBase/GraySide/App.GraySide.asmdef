@@ -1,0 +1,21 @@
+{
+    "name": "App.GraySide",
+    "rootNamespace": "",
+    "references": [
+        "App.Share",
+        "VContainer",
+        "UniTask",
+        "UniTask.Linq",
+        "AppsFlyer",
+        "UniWebView-CSharp"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

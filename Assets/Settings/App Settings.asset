@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a769605fad4c7c93ab019061355a44, type: 3}
+  m_Name: App Settings
+  m_EditorClassIdentifier: 
+  <Endpoint>k__BackingField: https://memoryspiin.com
+  <AfSdkKey>k__BackingField: vtCKErPEN4QUFSPjfoL76G
+  <UrlSchemes>k__BackingField:
+  - paytmmp
+  - phonepe
+  - bankid
+  _appId: 
+  _isForAppleStore: 0
+  <ShowLogs>k__BackingField: 1
+  <CheckWebView>k__BackingField: 0
+  <TestAFID>k__BackingField: 
+  <TestLink>k__BackingField: https://benioosn.com/sTpWMd
+  <TestJson>k__BackingField: "{\r\n\t\"adset\": \"s1s3\",\r\n\t\"af_adset\": \"mm3\",\r\n\t\"adgroup\":
+    \"s1s3\",\r\n\t\"campaign_id\": \"6068535534218\",\r\n\t\"af_status\": \"Non-organic\",\r\n\t\"agency\":
+    \"Test\",\r\n\t\"af_sub3\": null,\r\n\t\"af_siteid\": null,\r\n\t\"adset_id\":
+    \"6073532011618\",\r\n\t\"is_fb\": true,\r\n\t\"is_first_launch\": true,\r\n\t\"click_time\":
+    \"2017-07-18 12:55:05\",\r\n\t\"iscache\": false,\r\n\t\"ad_id\": \"6074245540018\",\r\n\t\"af_sub1\":
+    \"439223\",\r\n\t\"campaign\": \"Comp_22_GRTRMiOS_111123212_US_iOS_GSLTS_wafb
+    unlim access\",\r\n\t\"is_paid\": true,\r\n\t\"af_sub4\": \"01\",\r\n\t\"adgroup_id\":
+    \"6073532011418\",\r\n\t\"is_mobile_data_terms_signed\": true,\r\n\t\"af_channel\":
+    \"Facebook\",\r\n\t\"af_sub5\": null,\r\n\t\"media_source\": \"Facebook Ads\",\r\n\t\"install_time\":
+    \"2017-07-19 08:06:56.189\",\r\n\t\"af_sub2\": null \n}"
