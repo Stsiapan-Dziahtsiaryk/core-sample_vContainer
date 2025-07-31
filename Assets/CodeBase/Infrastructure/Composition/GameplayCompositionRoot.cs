@@ -51,6 +51,7 @@ namespace Infrastructure.Composition
         public void OnHandleNewGame()
         {
             _state.Value = GameState.Game;
+            _state.ForceNotify();
             _container.Resolve<Table>().HandleNewGame();
             _container.Resolve<Game>().HandleNewGame();
         }
