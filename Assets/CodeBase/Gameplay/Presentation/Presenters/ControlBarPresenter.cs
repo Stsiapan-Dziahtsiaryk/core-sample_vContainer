@@ -29,14 +29,12 @@ namespace Gameplay.Presentation.Presenters
 
         public void Enable()
         {
-            _model.HandleNewGameEvent += CreateCards;
             _model.CreateEvent += CreateCard;
             _view.TrashZone.OnDropped.AddListener(OnRemoveCard); 
         }
 
         public void Disable()
         {
-            _model.HandleNewGameEvent -= CreateCards;
             _model.CreateEvent -= CreateCard;
         }
 
@@ -50,17 +48,10 @@ namespace Gameplay.Presentation.Presenters
             _view.Hide();
         }
         
-        private void CreateCards()
-        {
-            CreateCard(_model.Cards[0]);
-            CreateCard(_model.Cards[1]);
-            _model.Cards[0].SetToTop();
-        }
-        
         private void CreateCard(Card cardModel)
         {
             CardElement card = _cardFactory.Create();
-            card.Spawn(_view.Buffer);
+            card.Spawn(cardModel.ID, _view.Buffer);
             cardModel
                 .Weight
                 .Subscribe(card.UpdateValue)

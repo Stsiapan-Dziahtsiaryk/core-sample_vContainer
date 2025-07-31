@@ -19,11 +19,14 @@ namespace Gameplay.Presentation.Views.Elements
         [SerializeField] private Image _graphic;
         [SerializeField] private TMP_Text _cardNumber;
         [SerializeField] private DraggableElement _draggableElement;
-
-        public void Spawn(RectTransform buffer)
+        [SerializeField] private Sprite[] _skinsSprites;
+        
+        public void Spawn(int id, RectTransform buffer)
         {
             _draggableElement.SetBuffer(buffer);
             _draggableElement.SetInteraction(true);
+            
+            _graphic.sprite = _skinsSprites[id];
         }
 
         public void UpdateValue(int value)

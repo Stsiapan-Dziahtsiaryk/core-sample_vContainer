@@ -19,15 +19,41 @@ namespace Gameplay.Presentation.Views.Elements
             }
         }
 
+        private GameObject CardCash { get; set; }
+        
         public event Action AddCardEvent;
 
-        public void AddCard(PointerEventData eventData)
+        private void OnEnable()
         {
-            GameObject card = eventData.pointerDrag;
-            card.transform.SetParent(transform, false);
-            if(card.TryGetComponent(out DraggableElement draggable))
-                Destroy(draggable);
+            if(TryGetComponent(out DroppableZone dropZone))
+                dropZone.OnDropped.AddListener(TryAddCard);
+        }
+
+        public void OnAddCard(bool isAdd)
+        {
+            if(isAdd)
+            {
+                CardCash.transform.SetParent(transform, false);
+                if (CardCash.TryGetComponent(out DraggableElement draggable))
+                    Destroy(draggable);
+            }
+            else
+            {
+                // get last added child
+            }
+        }
+
+        private void TryAddCard(PointerEventData eventData)
+        {
+            CardCash = eventData.pointerDrag;
+            
             AddCardEvent?.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            if(TryGetComponent(out DroppableZone dropZone))
+                dropZone.OnDropped.RemoveListener(TryAddCard);
         }
     }
 }

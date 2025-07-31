@@ -4,12 +4,14 @@ namespace Gameplay.Presentation.Data
 {
     public class Card
     {
-        public readonly ReactiveProperty<int> Weight;
         public readonly int ID;
+        public readonly ReactiveProperty<int> Weight;
+        
         private readonly ReactiveProperty<State> _state;
 
-        public Card(int weight)
+        public Card(int id, int weight)
         {
+            ID = id;
             Weight = new ReactiveProperty<int>(weight);
             _state = new ReactiveProperty<State>(State.Created);
         }

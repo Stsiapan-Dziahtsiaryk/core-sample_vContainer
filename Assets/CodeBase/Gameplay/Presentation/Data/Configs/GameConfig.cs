@@ -6,5 +6,6 @@ namespace Gameplay.Presentation.Data.Configs
     public class GameConfig : ScriptableObject
     {
         [field: SerializeField] public int MaxDeckSize { get; private set; }
+        [field: SerializeField] public CardConfig[] Cards { get; private set; }
     }
 }

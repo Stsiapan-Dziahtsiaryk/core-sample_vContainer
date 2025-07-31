@@ -35,12 +35,11 @@ namespace Gameplay.Presentation.Presenters
         
         public void Enable()
         {
-            _model.HandleNewGameEvent += CreateDecks;
+            CreateDecks();
         }
 
         public void Disable()
         {
-            _model.HandleNewGameEvent -= CreateDecks;
         }
 
         public void HandleOpenedWindow()
@@ -60,6 +59,7 @@ namespace Gameplay.Presentation.Presenters
                 DeckElement deck = _deckPool.Spawn();
                 deck.transform.SetParent(_view.Content.transform, false);
                 deck.AddCardEvent += _model.Decks[i].OnAdd;
+                _model.Decks[i].AddCardEvent += deck.OnAddCard;
             }
         }
 

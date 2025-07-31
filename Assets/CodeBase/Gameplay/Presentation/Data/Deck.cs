@@ -6,34 +6,42 @@ namespace Gameplay.Presentation.Data
     public class Deck
     {
         public readonly int ID;
-        
         private readonly int _maxSize;
+
         private Stack<Card> _deck = new Stack<Card>();
 
-        public Deck(int id)
+        public Deck(int id, int maxSize)
         {
             ID = id;
+            _maxSize = maxSize;
         }
 
         public event Action<int> AddEvent;
+        public event Action<bool> AddCardEvent;
+        
         public Card TopCard { get; private set; }
 
-        public int AddCard(ref Card card)
+        public bool AddCard(ref Card card)
         {
-            if (TopCard != null && TopCard.Weight.Value == card.Weight.Value)
-            {
-                TopCard.UpdateWeight();
-                card.DestroyState();
-                CheckInDeep();
-            }
-            else
-            {
-                _deck.Push(card);
-            }
+            AddCardEvent?.Invoke(card.ID == ID);
 
-            TopCard = _deck.Peek();
+            if (card.ID == ID)
+            {
+                if (TopCard != null && TopCard.Weight.Value == card.Weight.Value)
+                {
+                    TopCard.UpdateWeight();
+                    card.DestroyState();
+                    CheckInDeep();
+                }
+                else
+                {
+                    _deck.Push(card);
+                }
+
+                TopCard = _deck.Peek();
+            }
             
-            return TopCard.Weight.Value;
+            return card.ID == ID;
         }
 
         public void OnAdd()

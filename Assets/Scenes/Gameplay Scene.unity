@@ -1291,8 +1291,10 @@ MonoBehaviour:
   _tableView: {fileID: 991572450}
   _controlBarView: {fileID: 289014352}
   _menuView: {fileID: 45742987}
+  _hudView: {fileID: 211799718}
   _cardPrefab: {fileID: 6222626303013511614, guid: ce075a09dad7fe1419811262ca646c6e, type: 3}
   _deckPrefab: {fileID: 3258989391176171454, guid: a002179c4f69d3746a82c0fb86b8a2bf, type: 3}
+  _gameConfig: {fileID: 11400000, guid: ae9b11c425a35ac42b1f9060583cc212, type: 2}
 --- !u!1 &961696190
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,3 +13,12 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   <MaxDeckSize>k__BackingField: 10
+  <Cards>k__BackingField:
+  - ID: 0
+    Shirt: {fileID: -209448943, guid: d919002377613f5469d2ec58bc4a6d87, type: 3}
+  - ID: 1
+    Shirt: {fileID: 517687779, guid: d919002377613f5469d2ec58bc4a6d87, type: 3}
+  - ID: 2
+    Shirt: {fileID: -1323458170, guid: d919002377613f5469d2ec58bc4a6d87, type: 3}
+  - ID: 3
+    Shirt: {fileID: -1146773040, guid: d919002377613f5469d2ec58bc4a6d87, type: 3}
