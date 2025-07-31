@@ -51,7 +51,7 @@ namespace Gameplay.Presentation.Presenters
         
         private void OnRestartGame()
         {
-
+            _gameHandler.OnHandleNewGame();
         }
 
         private void OnGoHome()

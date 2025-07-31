@@ -48,6 +48,12 @@ namespace Gameplay.Presentation.Data
         {
             AddEvent?.Invoke(ID);
         }
+        
+        public void Clean()
+        {
+            _deck.Clear();
+            TopCard = null;
+        }
 
         private void CheckInDeep()
         {

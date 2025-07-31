@@ -46,27 +46,33 @@ namespace Gameplay.Presentation.Data
 
         public void HandleNewGame()
         {
-            if(_cardValues.Count > 4)
+            if(_cardValues.Count > 4) // clean value's
                 _cardValues.RemoveRange(4, _cardValues.Count - 4);
+            
+            // clean decks
+            foreach (Deck deck in _decks)
+                deck.Clean();
+            _cards.Clear();
             
             for (int i = 0; i < 2; i++)
                 CreateCard();
         }
 
+        public void OnUndo()
+        {
+            
+        }
+        
         private void AddToDeck(int deckID)
         {
-            Card cardTop = _cards.Dequeue();
+            Card cardTop = _cards.Peek();
             if(_decks[deckID].AddCard(ref cardTop))
             {
                 int value = _decks[deckID].TopCard.Weight.Value;
                 if (_cardValues.Contains(value) == false)
                     _cardValues.Add(value);
-
+                _cards.Dequeue();
                 CreateCard();
-            }
-            else
-            {
-                _cards.Enqueue(cardTop);
             }
         }
 

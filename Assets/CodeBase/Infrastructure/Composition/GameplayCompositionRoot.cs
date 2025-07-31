@@ -25,7 +25,7 @@ namespace Infrastructure.Composition
         }
 
 
-        public ReadOnlyReactiveProperty<GameState> State { get; }
+        public ReadOnlyReactiveProperty<GameState> State => _state;
 
         public void Start()
         {
