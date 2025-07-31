@@ -19,5 +19,15 @@ namespace Infrastructure.Extensions
                 .WithParameter("maxInstances", amount)
                 .WithParameter("parentName", parentName);
         }
+        
+        public static RegistrationBuilder RegisterFactory<TE, T>(
+            this IContainerBuilder resolver,
+            TE prefab)
+            where T : MonoFactory<TE>
+            where TE : MonoBehaviour
+        {
+            return resolver.Register<T>(Lifetime.Singleton)
+                .WithParameter("prefab", prefab);
+        }
     }
 }

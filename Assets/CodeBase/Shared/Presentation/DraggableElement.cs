@@ -13,7 +13,7 @@ namespace Shared.Presentation
 
         [SerializeField] private Canvas _canvas;
         [SerializeField] private RectTransform _buffer;
-
+        
         [SerializeField] private UnityEvent OnDownPointer = new UnityEvent();
         [SerializeField] private UnityEvent OnUpPointer = new UnityEvent();
         [SerializeField] private UnityEvent OnBegin = new UnityEvent();
@@ -149,7 +149,10 @@ namespace Shared.Presentation
             RTransform.SetParent(_parent, true);
         }
 
-        public void SetInteraction(bool isInteractionAllowed) =>
+        public void SetInteraction(bool isInteractionAllowed)
+        {
             _isInteractionBlocked = isInteractionAllowed;
+            TargetImage.raycastTarget = !isInteractionAllowed;
+        }
     }
 }

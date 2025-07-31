@@ -6,7 +6,8 @@
     "VContainer",
     "UniTask",
     "Vibration",
-    "Unity.TextMeshPro"
+    "Unity.TextMeshPro",
+    "R3.Unity"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

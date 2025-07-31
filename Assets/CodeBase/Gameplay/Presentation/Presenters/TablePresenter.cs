@@ -13,7 +13,7 @@ namespace Gameplay.Presentation.Presenters
         private readonly TableView _view;
         private readonly Table _model;
         private readonly DeckElement.Pool _deckPool;
-        private readonly CardElement.Pool _cardPool;
+        private readonly CardElement.Factory _cardFactory;
                 
         private readonly IWindowFsm _windowFsm;
 
@@ -23,13 +23,13 @@ namespace Gameplay.Presentation.Presenters
             TableView view,
             IWindowFsm windowFsm,
             DeckElement.Pool deckPool,
-            CardElement.Pool cardPool,
+            CardElement.Factory cardFactory,
             Table model)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _windowFsm = windowFsm ?? throw new ArgumentNullException(nameof(windowFsm));
             _deckPool = deckPool ?? throw new ArgumentNullException(nameof(deckPool));
-            _cardPool = cardPool ?? throw new ArgumentNullException(nameof(cardPool));
+            _cardFactory = cardFactory ?? throw new ArgumentNullException(nameof(cardFactory));
             _model = model ?? throw new ArgumentNullException(nameof(model));
         }
         
@@ -58,14 +58,14 @@ namespace Gameplay.Presentation.Presenters
             for (var i = 0; i < _model.Decks.Count; i++)
             {
                 DeckElement deck = _deckPool.Spawn();
-                deck.transform.SetParent(_view.Content.transform, false);                
-                
+                deck.transform.SetParent(_view.Content.transform, false);
+                deck.AddCardEvent += _model.Decks[i].OnAdd;
             }
         }
 
         private void OnSetToDeck(int deckId)
         {
-            
+                        
         }
     }
 }

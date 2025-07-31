@@ -9,5 +9,6 @@ namespace Gameplay.Presentation.Views
         [field: SerializeField] public Button StepBackButton { get; private set; }
         [field: SerializeField] public RectTransform DeckContainer { get; private set; }
         [field: SerializeField] public RectTransform Buffer { get; private set; }
+        [field: SerializeField] public DroppableZone TrashZone { get; private set; }
     }
 }

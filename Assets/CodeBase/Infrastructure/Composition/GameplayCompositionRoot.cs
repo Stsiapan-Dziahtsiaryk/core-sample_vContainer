@@ -29,15 +29,17 @@ namespace Infrastructure.Composition
 
         public void Start()
         {
-            _container.Resolve<CardElement.Pool>().Start();   
             _container.Resolve<DeckElement.Pool>().Start();
-
+            _container.Resolve<Table>().Initialize();
+            
             _container
                 .Bind<MenuView, MenuPresenter>()
                 .Bind<TableView, TablePresenter>()
-                .Bind<ControlBarView, ControlBarPresenter>();
+                .Bind<ControlBarView, ControlBarPresenter>()
+                .Bind<HUDView, HUDPresenter>();
 
-            _container.BindWindow<MenuPresenter>(WindowType.Menu);
+            _container
+                .BindWindow<MenuPresenter>(WindowType.Menu);
             
             _container.Resolve<IWindowFsm>().Open(WindowType.Menu);
         }
@@ -49,7 +51,8 @@ namespace Infrastructure.Composition
         public void OnHandleNewGame()
         {
             _state.Value = GameState.Game;
-            _container.Resolve<Table>().OnHandleNewGame();
+            _container.Resolve<Table>().HandleNewGame();
+            _container.Resolve<Game>().HandleNewGame();
         }
 
         public void OnChangeGameState(GameState state)

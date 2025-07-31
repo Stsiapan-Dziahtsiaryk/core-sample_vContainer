@@ -2,43 +2,42 @@ using System;
 using Gameplay.Presentation.Data;
 using Gameplay.Presentation.Views;
 using Gameplay.Presentation.Views.Elements;
+using R3;
 using Shared.Presentation;
+using UnityEngine.EventSystems;
+using Object = UnityEngine.Object;
 
 namespace Gameplay.Presentation.Presenters
 {
     public class ControlBarPresenter : ICanvasPresenter
     {
         private readonly ControlBarView _view;
-        private readonly CardElement.Pool _cardPool;
+        private readonly CardElement.Factory _cardFactory;
         private readonly Table _model;
+        
+        private readonly CompositeDisposable _cardDisposable = new CompositeDisposable();
         
         public ControlBarPresenter(
             ControlBarView view,
-            CardElement.Pool cardPool,
+            CardElement.Factory cardFactory,
             Table model)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
-            _cardPool = cardPool ?? throw new ArgumentNullException(nameof(cardPool));
+            _cardFactory = cardFactory ?? throw new ArgumentNullException(nameof(cardFactory));
             _model = model ?? throw new ArgumentNullException(nameof(model));
         }
 
         public void Enable()
         {
             _model.HandleNewGameEvent += CreateCards;
-        }
-
-        private void CreateCards()
-        {
-            for (var i = 0; i < _model.Cards.Count; i++)
-            {
-                CardElement card =  _cardPool.Spawn();
-                card.Spawn(_view.Buffer);
-                card.transform.SetParent(_view.DeckContainer.transform, false);
-            }
+            _model.CreateEvent += CreateCard;
+            _view.TrashZone.OnDropped.AddListener(OnRemoveCard); 
         }
 
         public void Disable()
         {
+            _model.HandleNewGameEvent -= CreateCards;
+            _model.CreateEvent -= CreateCard;
         }
 
         public void HandleOpenedWindow()
@@ -51,7 +50,46 @@ namespace Gameplay.Presentation.Presenters
             _view.Hide();
         }
         
+        private void CreateCards()
+        {
+            CreateCard(_model.Cards[0]);
+            CreateCard(_model.Cards[1]);
+            _model.Cards[0].SetToTop();
+        }
         
+        private void CreateCard(Card cardModel)
+        {
+            CardElement card = _cardFactory.Create();
+            card.Spawn(_view.Buffer);
+            cardModel
+                .Weight
+                .Subscribe(card.UpdateValue)
+                .AddTo(card);
+            
+            cardModel
+                .StateProperty
+                .Where(x => x == Card.State.Destroyed)
+                .Subscribe(_ => DestroyCards(card))
+                .AddTo(card);
+            
+            cardModel
+                .StateProperty
+                .Where(x => x == Card.State.Top)
+                .Subscribe(_ => card.SetInteraction())
+                .AddTo(card);
+            
+            card.transform.SetParent(_view.DeckContainer.transform, false);
+            card.transform.SetAsFirstSibling();
+            
+            void DestroyCards(CardElement cardElement)
+            {
+                Object.Destroy(cardElement.gameObject);
+            }
+        }
         
+        private void OnRemoveCard(PointerEventData eventData)
+        {
+            _model.RemoveCard();
+        }
     }
 }
