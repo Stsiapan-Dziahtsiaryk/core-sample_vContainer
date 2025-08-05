@@ -38,7 +38,7 @@ namespace Infrastructure.StateMachine.States
         private void OnLoaded()
         {
             // Anything additional 
-            Screen.orientation = ScreenOrientation.Portrait;
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
         }
 
         private void PreparedWindowFsm()
