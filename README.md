@@ -1,4 +1,4 @@
-# Core для самых маленьких
+# Core напоминалка
 
 ## Scene Management Overview
 
