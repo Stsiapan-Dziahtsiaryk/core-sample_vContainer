@@ -6,8 +6,6 @@ using Gameplay.Presentation.Views.Elements;
 using Infrastructure.UIStateMachine;
 using R3;
 using Shared.Presentation;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Gameplay.Presentation.Presenters
 {
@@ -16,7 +14,7 @@ namespace Gameplay.Presentation.Presenters
         private readonly TableView _view;
         private readonly Table _model;
         private readonly DeckElement.Pool _deckPool;
-        private readonly CardElement.Factory _cardFactory;
+        private readonly CardElement.Pool _cardPool;
 
         private readonly IGameHandler _gameHandler;
         private readonly IWindowFsm _windowFsm;
@@ -27,16 +25,16 @@ namespace Gameplay.Presentation.Presenters
             TableView view,
             IWindowFsm windowFsm,
             DeckElement.Pool deckPool,
-            CardElement.Factory cardFactory,
             Table model,
-            IGameHandler gameHandler)
+            IGameHandler gameHandler,
+            CardElement.Pool cardPool)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
             _windowFsm = windowFsm ?? throw new ArgumentNullException(nameof(windowFsm));
             _deckPool = deckPool ?? throw new ArgumentNullException(nameof(deckPool));
-            _cardFactory = cardFactory ?? throw new ArgumentNullException(nameof(cardFactory));
             _model = model ?? throw new ArgumentNullException(nameof(model));
             _gameHandler = gameHandler ?? throw new ArgumentNullException(nameof(gameHandler));
+            _cardPool = cardPool ?? throw new ArgumentNullException(nameof(cardPool));
         }
 
         public void Enable()
@@ -65,8 +63,22 @@ namespace Gameplay.Presentation.Presenters
             {
                 DeckElement deck = _deckPool.Spawn();
                 deck.transform.SetParent(_view.Content.transform, false);
+                
+                CreateCardsPool(_model.Decks[i], deck);
+                _model.Decks[i].UpdateViewEvent += deck.OnUpdate;
                 deck.AddCardEvent += _model.Decks[i].OnAdd;
-                _model.Decks[i].AddCardEvent += deck.OnAddCard;
+            }
+        }
+
+        private void CreateCardsPool(Deck model, DeckElement deck)
+        {
+            for (int i = 0; i < model.MaxSize; i++)
+            {
+                CardElement card = _cardPool.Spawn();
+                card.Spawn(model.ID);
+                card.transform.SetParent(deck.transform, false);
+                card.gameObject.SetActive(false);
+                deck.Setup(card);
             }
         }
 
@@ -77,14 +89,6 @@ namespace Gameplay.Presentation.Presenters
                 case GameState.Invalid:
                     break;
                 case GameState.Game:
-                    for (int i = 0; i < _view.Content.childCount; i++)
-                    {
-                        Transform deck = _view.Content.GetChild(i);
-                        for (int j = 0; j < deck.childCount; j++)
-                        {
-                            Object.Destroy(deck.GetChild(j).gameObject);
-                        }
-                    }
                     break;
                 case GameState.Pause:
                     break;

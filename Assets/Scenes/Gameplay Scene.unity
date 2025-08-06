@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2026038456225863930, guid: 88354a6259e21174495136e9a5c6b6e8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2050071666471262218, guid: 88354a6259e21174495136e9a5c6b6e8, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0

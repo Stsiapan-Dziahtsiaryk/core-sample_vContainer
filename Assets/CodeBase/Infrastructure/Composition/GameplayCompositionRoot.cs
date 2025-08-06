@@ -30,6 +30,7 @@ namespace Infrastructure.Composition
         public void Start()
         {
             _container.Resolve<DeckElement.Pool>().Start();
+            _container.Resolve<CardElement.Pool>().Start();
             _container.Resolve<Table>().Initialize();
             
             _container

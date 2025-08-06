@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Shared.Extends;
 using Gameplay.Presentation.Data;
 using Shared.Presentation;
@@ -18,8 +20,8 @@ namespace Gameplay.Presentation.Views.Elements
             {
             }
         }
-
-        private GameObject CardCash { get; set; }
+        
+        private List<CardElement> _cards = new List<CardElement>();
         
         public event Action AddCardEvent;
 
@@ -29,24 +31,28 @@ namespace Gameplay.Presentation.Views.Elements
                 dropZone.OnDropped.AddListener(TryAddCard);
         }
 
-        public void OnAddCard(bool isAdd)
+        public void Setup(CardElement card)
         {
-            if(isAdd)
-            {
-                CardCash.transform.SetParent(transform, false);
-                if (CardCash.TryGetComponent(out DraggableElement draggable))
-                    Destroy(draggable);
-            }
-            else
-            {
-                // get last added child
-            }
+            _cards.Add(card);
         }
 
+        public void OnUpdate(Card[] cards = null)
+        {
+            if(cards == null)
+                _cards.ForEach(x => x.gameObject.SetActive(false));
+            
+            var rightOrder = cards.Reverse().ToArray();
+            
+            for (var i = 0; i < _cards.Count; i++)
+            {
+                if(i < rightOrder.Length)
+                    _cards[i].UpdateValue(rightOrder[i].Weight.Value);
+                _cards[i].gameObject.SetActive(i < rightOrder.Length);
+            }
+        }
+        
         private void TryAddCard(PointerEventData eventData)
         {
-            CardCash = eventData.pointerDrag;
-            
             AddCardEvent?.Invoke();
         }
 

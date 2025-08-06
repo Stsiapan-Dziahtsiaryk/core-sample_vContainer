@@ -5,16 +5,14 @@ using Gameplay.Presentation.Views;
 using Gameplay.Presentation.Views.Elements;
 using R3;
 using Shared.Presentation;
-using UnityEngine;
 using UnityEngine.EventSystems;
-using Object = UnityEngine.Object;
 
 namespace Gameplay.Presentation.Presenters
 {
     public class ControlBarPresenter : ICanvasPresenter
     {
         private readonly ControlBarView _view;
-        private readonly CardElement.Factory _cardFactory;
+        private readonly CardElement.Pool _cardPool;
         private readonly Table _model;
         private readonly IGameHandler _gameHandler;
         
@@ -22,26 +20,31 @@ namespace Gameplay.Presentation.Presenters
         
         public ControlBarPresenter(
             ControlBarView view,
-            CardElement.Factory cardFactory,
             Table model,
-            IGameHandler gameHandler)
+            IGameHandler gameHandler, 
+            CardElement.Pool cardPool)
         {
             _view = view ?? throw new ArgumentNullException(nameof(view));
-            _cardFactory = cardFactory ?? throw new ArgumentNullException(nameof(cardFactory));
             _model = model ?? throw new ArgumentNullException(nameof(model));
             _gameHandler = gameHandler ?? throw new ArgumentNullException(nameof(gameHandler));
+            _cardPool = cardPool ?? throw new ArgumentNullException(nameof(cardPool));
         }
 
         public void Enable()
         {
-            _model.CreateEvent += CreateCard;
+            _model.CreateEvent += CreateCardFromPool;
             _view.TrashZone.OnDropped.AddListener(OnRemoveCard);
+            _view.StepBackButton.onClick.AddListener(_model.OnUndo);
             _gameHandler.State.Subscribe(OnChangedState).AddTo(_disposable);
         }
 
         public void Disable()
         {
-            _model.CreateEvent -= CreateCard;
+            _model.CreateEvent -= CreateCardFromPool;
+        
+            _view.TrashZone.OnDropped.RemoveListener(OnRemoveCard);
+            _view.StepBackButton.onClick.RemoveListener(_model.OnUndo);
+            _disposable.Clear();
         }
 
         public void HandleOpenedWindow()
@@ -54,34 +57,26 @@ namespace Gameplay.Presentation.Presenters
             _view.Hide();
         }
         
-        private void CreateCard(Card cardModel)
+        private void CreateCardFromPool(Card model)
         {
-            CardElement card = _cardFactory.Create();
-            card.Spawn(cardModel.ID, _view.Buffer);
-            cardModel
-                .Weight
-                .Subscribe(card.UpdateValue)
-                .AddTo(card);
+            CardElement card = _cardPool.Spawn();
+            card.Spawn(model.ID, _view.Buffer);
+            card.UpdateValue(model.Weight.Value);
             
-            cardModel
+            model
                 .StateProperty
-                .Where(x => x == Card.State.Destroyed)
-                .Subscribe(_ => DestroyCards(card))
-                .AddTo(card);
+                .Where(x => x == Card.State.Destroyed).Subscribe(x =>
+                {
+                    _cardPool.Despawn(card);
+                }).AddTo(card.Disposable);
             
-            cardModel
+            model
                 .StateProperty
-                .Where(x => x == Card.State.Top)
-                .Subscribe(_ => card.SetInteraction())
-                .AddTo(card);
+                .Subscribe(card.OnChangeState).AddTo(card.Disposable);
             
             card.transform.SetParent(_view.DeckContainer.transform, false);
             card.transform.SetAsFirstSibling();
-            
-            void DestroyCards(CardElement cardElement)
-            {
-                Object.Destroy(cardElement.gameObject);
-            }
+
         }
         
         private void OnRemoveCard(PointerEventData eventData)
@@ -96,10 +91,6 @@ namespace Gameplay.Presentation.Presenters
                 case GameState.Invalid:
                     break;
                 case GameState.Game:
-                    for (int i = 0; i < _view.DeckContainer.childCount; i++)
-                    {
-                        Object.Destroy(_view.DeckContainer.GetChild(i).gameObject);
-                    }
                     break;
                 case GameState.Pause:
                     break;
@@ -108,6 +99,7 @@ namespace Gameplay.Presentation.Presenters
                 case GameState.End:
                     break;
                 case GameState.Menu:
+                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

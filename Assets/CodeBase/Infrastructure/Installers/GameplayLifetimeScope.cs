@@ -29,7 +29,7 @@ namespace Infrastructure.Installers
             builder.RegisterEntryPoint<GameplayCompositionRoot>();
             builder.RegisterInstance(_gameConfig);
 
-            builder.RegisterFactory<CardElement, CardElement.Factory>(_cardPrefab);
+            builder.RegisterPool<CardElement, CardElement.Pool>(_cardPrefab, "Cards Pool", _gameConfig.PoolSize);
             builder.RegisterPool<DeckElement, DeckElement.Pool>(_deckPrefab, "Deck Pool", 10);
             
             builder.RegisterInstance(_tableView);

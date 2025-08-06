@@ -7,5 +7,7 @@ namespace Gameplay.Presentation.Data.Configs
     {
         [field: SerializeField] public int MaxDeckSize { get; private set; }
         [field: SerializeField] public CardConfig[] Cards { get; private set; }
+        
+        public int PoolSize => Cards.Length * MaxDeckSize + 2;
     }
 }
